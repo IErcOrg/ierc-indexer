@@ -1,0 +1,417 @@
+# Generated with protoc-gen-openapi
+# https://github.com/google/gnostic/tree/master/cmd/protoc-gen-openapi
+
+openapi: 3.0.3
+info:
+    title: Indexer API
+    version: 0.0.1
+paths:
+    /api/v2/index/check_transfer:
+        get:
+            tags:
+                - Indexer
+            operationId: Indexer_CheckTransfer
+            parameters:
+                - name: hash
+                  in: query
+                  schema:
+                    type: string
+                - name: positionIndex
+                  in: query
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.indexer.CheckTransferReply'
+    /api/v2/index/events:
+        get:
+            tags:
+                - Indexer
+            description: events
+            operationId: Indexer_QueryEvents
+            parameters:
+                - name: startBlock
+                  in: query
+                  description: start_block
+                  schema:
+                    type: string
+                - name: size
+                  in: query
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.indexer.QueryEventsReply'
+    /api/v2/index/status:
+        get:
+            tags:
+                - Indexer
+            description: indexer
+            operationId: Indexer_QuerySystemStatus
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.indexer.QuerySystemStatusReply'
+components:
+    schemas:
+        api.indexer.CheckTransferReply:
+            type: object
+            properties:
+                data:
+                    $ref: '#/components/schemas/api.indexer.CheckTransferReply_TransferRecord'
+        api.indexer.CheckTransferReply_TransferRecord:
+            type: object
+            properties:
+                sender:
+                    type: string
+                receiver:
+                    type: string
+                tick:
+                    type: string
+                amount:
+                    type: string
+                status:
+                    type: boolean
+        api.indexer.Event:
+            type: object
+            properties:
+                blockNumber:
+                    type: string
+                    description: block_number
+                txHash:
+                    type: string
+                    description: transaction
+                posInIercTxs:
+                    type: integer
+                    description: index
+                    format: int32
+                from:
+                    type: string
+                    description: from
+                to:
+                    type: string
+                    description: to
+                value:
+                    type: string
+                    description: ETH value
+                eventAt:
+                    type: string
+                    description: timestamp
+                errCode:
+                    type: integer
+                    description: err_code
+                    format: int32
+                errReason:
+                    type: string
+                    description: error
+                tickCreated:
+                    allOf:
+                        - $ref: '#/components/schemas/api.indexer.IERC20TickCreated'
+                    description: ierc20 tick
+                minted:
+                    $ref: '#/components/schemas/api.indexer.IERC20Minted'
+                powTickCreated:
+                    allOf:
+                        - $ref: '#/components/schemas/api.indexer.IERCPoWTickCreated'
+                    description: ierc_pow
+                powMinted:
+                    $ref: '#/components/schemas/api.indexer.IERCPoWMinted'
+                tickTransferred:
+                    allOf:
+                        - $ref: '#/components/schemas/api.indexer.TickTransferred'
+                    description: ierc20 & ierc_pow & staking
+                poolUpdated:
+                    allOf:
+                        - $ref: '#/components/schemas/api.indexer.StakingPoolUpdated'
+                    description: staking
+        api.indexer.IERC20Minted:
+            type: object
+            properties:
+                protocol:
+                    type: string
+                    description: protocol
+                operate:
+                    type: integer
+                    description: operate
+                    format: enum
+                tick:
+                    type: string
+                    description: ierc20 tick
+                from:
+                    type: string
+                    description: from
+                to:
+                    type: string
+                    description: to
+                nonce:
+                    type: string
+                    description: nonce
+                mintedAmount:
+                    type: string
+                    description: mint_number
+                gas:
+                    type: string
+                    description: gas
+                gasPrice:
+                    type: string
+        api.indexer.IERC20TickCreated:
+            type: object
+            properties:
+                protocol:
+                    type: string
+                    description: protocol
+                operate:
+                    type: integer
+                    description: operate
+                    format: enum
+                tick:
+                    type: string
+                    description: tick
+                decimals:
+                    type: string
+                    description: decimals
+                maxSupply:
+                    type: string
+                    description: max_supply
+                limit:
+                    type: string
+                    description: limit
+                walletLimit:
+                    type: string
+                    description: wallet_limit
+                workc:
+                    type: string
+                    description: pow_target
+                creator:
+                    type: string
+                    description: deployer
+                nonce:
+                    type: string
+                    description: nonce
+            description: IERC20 Tick
+        api.indexer.IERCPoWMinted:
+            type: object
+            properties:
+                protocol:
+                    type: string
+                    description: protocol
+                operate:
+                    type: integer
+                    description: operate, mint\transfer\freeze_sell\unfreeze_sell\proxy_transfer
+                    format: enum
+                tick:
+                    type: string
+                    description: ierc20 tick
+                from:
+                    type: string
+                    description: from
+                to:
+                    type: string
+                    description: to
+                nonce:
+                    type: string
+                    description: nonce
+                isPow:
+                    type: boolean
+                    description: is_pow
+                powTotalShare:
+                    type: string
+                powMinerShare:
+                    type: string
+                powMintedAmount:
+                    type: string
+                isPos:
+                    type: boolean
+                    description: is_pow
+                posTotalShare:
+                    type: string
+                posMinerShare:
+                    type: string
+                posMintedAmount:
+                    type: string
+                gas:
+                    type: string
+                gasPrice:
+                    type: string
+                isAirdrop:
+                    type: boolean
+                    description: is_airdrop
+                airdropAmount:
+                    type: string
+                burnedAmount:
+                    type: string
+                    description: burned_amount
+        api.indexer.IERCPoWTickCreated:
+            type: object
+            properties:
+                protocol:
+                    type: string
+                    description: protocol
+                operate:
+                    type: integer
+                    description: operate
+                    format: enum
+                tick:
+                    type: string
+                    description: ierc20 tick
+                decimals:
+                    type: string
+                maxSupply:
+                    type: string
+                tokenomicsDetails:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/api.indexer.IERCPoWTickCreated_TokenomicsDetail'
+                rule:
+                    $ref: '#/components/schemas/api.indexer.IERCPoWTickCreated_Rule'
+                creator:
+                    type: string
+        api.indexer.IERCPoWTickCreated_Rule:
+            type: object
+            properties:
+                powRatio:
+                    type: string
+                minWorkc:
+                    type: string
+                difficultyRatio:
+                    type: string
+                posRatio:
+                    type: string
+                posPool:
+                    type: string
+        api.indexer.IERCPoWTickCreated_TokenomicsDetail:
+            type: object
+            properties:
+                blockNumber:
+                    type: string
+                amount:
+                    type: string
+        api.indexer.QueryEventsReply:
+            type: object
+            properties:
+                eventByBlocks:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/api.indexer.QueryEventsReply_EventsByBlock'
+        api.indexer.QueryEventsReply_EventsByBlock:
+            type: object
+            properties:
+                blockNumber:
+                    type: string
+                    description: block_number
+                prevBlockNumber:
+                    type: string
+                    description: preblock_number
+                events:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/api.indexer.Event'
+                    description: events
+        api.indexer.QuerySystemStatusReply:
+            type: object
+            properties:
+                syncBlock:
+                    type: string
+                    description: synchronized_block_number
+        api.indexer.StakingPoolUpdated:
+            type: object
+            properties:
+                protocol:
+                    type: string
+                    description: protocol
+                operate:
+                    type: integer
+                    description: operate
+                    format: enum
+                from:
+                    type: string
+                    description: from
+                to:
+                    type: string
+                    description: to
+                pool:
+                    type: string
+                    description: pool
+                poolId:
+                    type: string
+                    description: pool_id
+                name:
+                    type: string
+                    description: pool_name
+                owner:
+                    type: string
+                    description: pool_owner
+                admins:
+                    type: array
+                    items:
+                        type: string
+                    description: pool_admin
+                details:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/api.indexer.StakingPoolUpdated_TickConfigDetail'
+                    description: pool_config
+                stopBlock:
+                    type: string
+                    description: end_block
+        api.indexer.StakingPoolUpdated_TickConfigDetail:
+            type: object
+            properties:
+                tick:
+                    type: string
+                ratio:
+                    type: string
+                maxAmount:
+                    type: string
+        api.indexer.TickTransferred:
+            type: object
+            properties:
+                protocol:
+                    type: string
+                    description: protocol
+                operate:
+                    type: integer
+                    description: operate, mint\transfer\freeze_sell\unfreeze_sell\proxy_transfer
+                    format: enum
+                tick:
+                    type: string
+                    description: ierc20 tick
+                from:
+                    type: string
+                    description: from
+                to:
+                    type: string
+                    description: to
+                amount:
+                    type: string
+                    description: amount
+                ethValue:
+                    type: string
+                    description: |-
+                        ========= freeze_sell、unfreeze_sell、proxy_transfer data =========
+                         ETH value
+                gasPrice:
+                    type: string
+                    description: ETH value
+                    type: string
+                    description: |-
+                        signer nonce
+                         - freeze_sell, to
+                         - proxy_transfer, from
+                sign:
+                    type: string
+                    description: sig
+            description: IERC20 Tick
+tags:
+    - name: Indexer

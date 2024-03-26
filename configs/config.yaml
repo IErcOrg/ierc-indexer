@@ -1,0 +1,38 @@
+server:
+  http:
+    addr: 0.0.0.0:12300
+    timeout: 30s
+  grpc:
+    addr: 0.0.0.0:12301
+    timeout: 1s
+data:
+  database:
+    driver: mysql
+    #  log status. default silent
+    #  1. silent
+    #  2. error
+    #  3. warn
+    #  4. info
+    log_level: 2
+    source: "root:123456@(127.0.0.1:3306)/main_indexer?charset=utf8mb4&parseTime=True&loc=Local"
+
+  ethereum:
+    endpoints:
+      - "https://mainnet.infura.io/v3/xxxxxx"
+
+runtime:
+  # enable/disable sync
+  enable_sync: ture
+  # sync threads number
+  sync_threads_num: 5
+  # start block
+  sync_start_block: 17598250
+  # enable/disable handle
+  enable_handle: true
+  # end block number
+  # handle_end_block: 19059466
+  # size
+  handle_queue_size: 1000
+  # invalid tx
+  invalid_tx_hash_path: ./configs/invalid_tx_hash.json
+  fee_start_block: 18810822

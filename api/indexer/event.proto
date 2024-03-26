@@ -1,0 +1,162 @@
+syntax = "proto3";
+
+package api.indexer;
+
+option go_package = "github.com/IErcOrg/IERC_Indexer/api/indexer;indexer";
+option java_multiple_files = true;
+option java_package = "api.indexer";
+
+
+enum Operate {
+    OPERATE_UNSPECIFIED = 0;
+    Deploy = 1;
+    Mint = 2;
+    Transfer = 3;
+    FreezeSell = 4;
+    UnfreezeSell = 5;
+    ProxyTransfer = 6;
+    StakeConfig = 7;
+    Stake = 8;
+    UnStake = 9;
+    ProxyUnStake = 10;
+    Modify = 11;
+    ClaimAirdrop = 12;
+}
+
+// IERC20 Tick
+message IERC20TickCreated {
+    string protocol = 1;
+    Operate operate = 2;
+    string tick = 3;
+    int64 decimals = 4;
+    string max_supply = 5;
+    string limit = 6;
+    string wallet_limit = 7;
+    string workc = 8;
+    string creator = 9;
+    string nonce = 10;
+}
+
+message IERC20Minted {
+    string protocol = 1;
+    Operate operate = 2;
+    // ierc20 tick
+    string tick = 3;
+    string from = 4;
+    string to = 5;
+    string nonce = 6;
+    string minted_amount = 7;
+    string gas = 8;
+    string gas_price =9;
+}
+
+
+message IERCPoWTickCreated {
+    message TokenomicsDetail {
+        uint64 block_number = 1;
+        string amount = 2;
+    }
+
+    message Rule {
+        string pow_ratio = 1;
+        string min_workc = 2;
+        string difficulty_ratio = 3;
+        string pos_ratio = 4;
+        string pos_pool = 5;
+    }
+
+    string protocol = 1;
+    Operate operate = 2;
+    // ierc20 tick
+    string tick = 3;
+    int64 decimals = 4;
+    string max_supply = 5;
+    repeated TokenomicsDetail tokenomics_details = 6;
+    Rule rule = 7;
+    string creator = 8;
+}
+
+message IERCPoWMinted {
+    string protocol = 1;
+    Operate operate = 2;
+    // ierc20 tick
+    string tick = 3;
+    string from = 4;
+    string to = 5;
+    string nonce = 6;
+    bool is_pow = 7;
+    string pow_total_share = 8;
+    string pow_miner_share = 9;
+    string pow_minted_amount = 10;
+    bool is_pos = 11;
+    string pos_total_share = 12;
+    string pos_miner_share = 13;
+    string pos_minted_amount = 14;
+    string gas = 15;
+    string gas_price =16;
+    bool is_airdrop = 17;
+    string airdrop_amount = 18;
+    string burned_amount = 19;
+}
+
+message TickTransferred {
+    string protocol = 1;
+    Operate operate = 2;
+    // ierc20 tick
+    string tick = 3;
+    string from = 4;
+    string to = 5;
+    string amount = 6;
+    string eth_value = 7;
+    string gas_price = 8;
+    string signer_nonce = 9;
+    string sign = 10;
+}
+
+
+message StakingPoolUpdated {
+    message TickConfigDetail {
+        string tick = 1;
+        string ratio = 2;
+        string max_amount = 3;
+    }
+    string protocol = 1;
+    Operate operate = 2;
+    string from = 3;
+    string to = 4;
+    string pool = 5;
+    uint64 pool_id = 6;
+    string name = 7;
+    string owner = 8;
+    repeated string admins = 9;
+    repeated TickConfigDetail details = 10;
+    uint64 stop_block = 11;
+}
+
+message Event {
+    uint64 block_number = 1;
+    string tx_hash = 2;
+    int32 pos_in_ierc_txs = 3;
+    string from = 4;
+    string to = 5;
+    string value = 6;
+    int64 event_at = 7;
+    int32 err_code = 8;
+    string err_reason = 9;
+
+    oneof event {
+        // ierc20 tick
+        IERC20TickCreated tick_created = 20;
+        IERC20Minted minted = 21;
+
+        // ierc_pow
+        IERCPoWTickCreated pow_tick_created = 22;
+        IERCPoWMinted pow_minted = 23;
+
+        // ierc20 & ierc_pow & staking
+        TickTransferred tick_transferred = 24;
+
+        // staking
+        StakingPoolUpdated pool_updated = 25;
+    }
+}

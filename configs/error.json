@@ -1,0 +1,97 @@
+{
+
+
+
+    "100":"deploy error",
+    "101":"erc tick already deployed",
+    "102":"erc tick decimal required 0 ~ 18",
+    "104":"erc tick created error",
+    "105":"erc action record error",
+    "106":"erc tick name required",
+    "107":"erc tick name too long",
+    "108":"erc deploy nonce required",
+    "109":"erc deploy max requiredr",
+    "110":"erc deploy lim required",
+    "111":"erc deploy wlim required",
+    "112":"erc deploy dec required",
+    "113":"erc deploy max format error",
+    "114":"erc deploy lim format error",
+    "115":"erc deploy wlim format error",
+    "116":"erc deploy decimal format error",
+    "117":"erc deploy nonce format error",
+    "118":"Invalid workc",
+    "119":"erc tick decimal required 0 ~ 18",
+
+
+
+
+    "200":"mint error",
+    "201":"erc tick not exist",
+    "202":"erc tick not deployed before",
+    "203":"erc tick minted over limit",
+    "204":"erc tick minted over left",
+    "205":"Erc tick minted over limit each time",
+    "206":"Erc tick minted over limit",
+    "207":"Hash not qualifed",
+
+    "300":"transfer error",
+    "301":"not enough to transfer",
+    "302":"can't transfer to self",
+    "303":"can't transfer to invalid address",
+
+    "400":"freeze sell error",
+    "401":"sell token not specified",
+    "402":"freeze sell token balance is not enough",
+    "403":"freeze sell order is not exist",
+    "404":"order record status not is list or pending (freeze sell)",
+    "405":"order had expired (freeze sell)",
+    "406":"freeze sell signature has already been used",
+    "407":"signature recover error",
+    "408":"signature not matched",
+    "409":"service fee is not enough required:%d actual:%d",
+    "410":"freeze amount format error",
+    "411":"seller address is not valid",
+    "412":"tick is empty",
+    "413":"platform is not valid",
+    "414":"value is not enough",
+
+    "500":"proxy transfer error",
+    "501":"Not supported operation",
+    "502":"Not enough balance to transfer",
+    "503":"proxy amount format error",
+    "504":"from address is not valid",
+    "505":"to address is not valid",
+    "507":"proxy value amount format error",
+    "508":"sign format error",
+    "509":"sign existed",
+
+
+    "600":"Format error",
+    "601":"Format error",
+    "602":"Protocol OP is required",
+    "603":"Invalid workc",
+    "604":"Op is not supported",
+
+    "610":"wrong deploy parameters",
+    "611":"wrong deploy parameters",
+
+    "621":"mint tick required",
+    "622":"mint amount required",
+    "623":"mint amount format error",
+    "624":"mint nonce format error",
+
+    "631":"transfer tick is erquired",
+    "632":"transfer target is required",
+    "633":"transfer target error 1",
+    "634":"transfer target error 2",
+    "635":"tranfer amount format error ",
+    "636":"transfer amount error 1",
+    "637":"transfer amount error 2",
+    "638":"transfer amount value error",
+
+    "651":"No proxy found",
+
+    "900":"function error",
+    "901":"parse protocol error"
+
+}

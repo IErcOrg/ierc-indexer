@@ -1,0 +1,87 @@
+syntax = "proto3";
+
+package api.indexer;
+
+option go_package = "github.com/IErcOrg/IERC_Indexer/api/indexer;indexer";
+option java_multiple_files = true;
+option java_package = "api.indexer";
+
+import "google/api/annotations.proto";
+import "indexer/event.proto";
+
+service Indexer {
+    rpc SubscribeEvent (SubscribeRequest) returns (stream SubscribeReply);
+    rpc SubscribeSystemStatus (SubscribeSystemStatusRequest) returns (stream SubscribeSystemStatusReply);
+    rpc QueryEvents (QueryEventsRequest) returns (QueryEventsReply) {
+        option (google.api.http) = {
+            get: "/api/v2/index/events"
+        };
+    };
+    rpc QuerySystemStatus (QuerySystemStatusRequest) returns (QuerySystemStatusReply) {
+        option (google.api.http) = {
+            get: "/api/v2/index/status"
+        };
+    };
+
+    rpc CheckTransfer(CheckTransferRequest) returns (CheckTransferReply) {
+        option (google.api.http) = {
+            get: "/api/v2/index/check_transfer"
+        };
+    };
+}
+
+
+message SubscribeRequest {
+    uint64 start_block = 1;
+}
+message SubscribeReply {
+    uint64 block_number = 1;
+    uint64 prev_block_number = 2;
+    repeated Event events = 3;
+}
+
+
+message SubscribeSystemStatusRequest {}
+message SubscribeSystemStatusReply {
+    uint64 latest_block = 1;
+    uint64 indexed_block = 2;
+    uint64 sync_block = 3;
+}
+
+
+message QueryEventsRequest {
+    uint64 start_block = 1;
+    int64 size = 2;
+}
+message QueryEventsReply {
+    message EventsByBlock {
+        uint64 block_number = 1;
+        uint64 prev_block_number = 2;
+        repeated Event events = 3;
+    }
+
+    repeated EventsByBlock event_by_blocks = 1;
+}
+
+
+message QuerySystemStatusRequest {}
+message QuerySystemStatusReply {
+    uint64 sync_block = 1;
+}
+
+message CheckTransferRequest {
+    string hash = 1;
+    int64 position_index = 2;
+}
+
+message CheckTransferReply {
+    message TransferRecord {
+        string sender = 1;
+        string receiver = 2;
+        string tick = 3;
+        string amount = 4;
+        bool status = 5;
+    }
+
+    TransferRecord data = 1;
+}

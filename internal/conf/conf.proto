@@ -1,0 +1,67 @@
+syntax = "proto3";
+package config;
+
+option go_package = "github.com/IErcOrg/IERC_Indexer/internal/conf;conf";
+
+import "google/protobuf/duration.proto";
+
+message Bootstrap {
+  Server server = 1;
+  Data data = 2;
+  Runtime runtime = 3;
+}
+
+message Server {
+  message HTTP {
+    string network = 1;
+    string addr = 2;
+    google.protobuf.Duration timeout = 3;
+  }
+  message GRPC {
+    string network = 1;
+    string addr = 2;
+    google.protobuf.Duration timeout = 3;
+  }
+  HTTP http = 1;
+  GRPC grpc = 2;
+}
+
+message Data {
+  message Database {
+    string driver = 1;
+    string source = 2;
+    // log status. default silent
+    // 1. silent
+    // 2. error
+    // 3. warn
+    // 4. info
+    int64 log_level = 3;
+    // default: 10
+    int64 max_idle_conns = 4;
+    // default: 100
+    int64 max_open_conns = 5;
+    // default: 300s
+    google.protobuf.Duration conn_max_lifetime = 6;
+  }
+
+  message Ethereum {
+    repeated string endpoints = 1;
+    int64 nums = 2; //
+  }
+
+  Database database = 1;
+  Ethereum ethereum = 2;
+  Runtime runtime = 3;
+}
+
+message Runtime {
+  bool enable_sync = 1;
+  uint64 sync_start_block = 2;
+  uint64 sync_threads_num = 3;
+  bool enable_handle = 4;
+
+  uint64 handle_end_block = 5;
+  int64 handle_queue_size = 6;
+  string invalid_tx_hash_path = 7;
+  uint64 fee_start_block = 8;
+}
